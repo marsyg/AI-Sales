@@ -11,38 +11,54 @@ import {
 } from '@/components/ui/dialog';
 import useWebinarStore from '@/store/useWebinarStore';
 import React from 'react';
+import { Component, Plus } from 'lucide-react';
+import { useState } from 'react';
+import MultiFormStep from './_Components/MultiFormStep';
+import BasicInfoStep from './_Components/BasicInfoStep';
 
 type Props = {};
 
-function CreateWebinar({}: Props) {
-    const {isModalOpen, setModalOpen} = useWebinarStore();
+function CreateWebinar({ }: Props) {
+  const { isModalOpen, setModalOpen, isComplete, setComplete } = useWebinarStore();
+  const steps = [
+    {
+      id: 'basicInfo',
+      title: 'Basic Information',
+      description: 'Please fill out the standard info needed for your webinar',
+      component: BasicInfoStep
+    }
+  ]
+  const handleComplete = (webinarId: string) => {
+    setComplete(true)
+    setWebinarLink(`${process.env.NEXT_PUBLIC_URL}/live-webinar/${webinarId}`)
+  }
+  const [webinarLink, setWebinarLink] = useState('')
   return (
     <Dialog
-    open = {isModalOpen} // Set to true to open the dialog by default
-    onOpenChange={setModalOpen} // Function to control the open state
+      open={isModalOpen} // Set to true to open the dialog by default
+      onOpenChange={setModalOpen} // Function to control the open state
     >
-      <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90'>
-       <Button onClick={()=>{setModalOpen(true)}}> </Button>
+      <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
+        <Button className='rounded-2xl  flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create a new webinar</DialogTitle>
-          <DialogDescription>
-            Fill in the details to create a new webinar.
-          </DialogDescription>
-        </DialogHeader>
-        {/* Add form fields here */}
-        <DialogFooter>
-          <DialogClose className='bg-secondary text-secondary-foreground hover:bg-secondary/90'>
-            Cancel
-          </DialogClose>
-          <button className='bg-primary text-primary-foreground hover:bg-primary/90'>
-            Create Webinar
-          </button>
-        </DialogFooter>
+        {
+          isComplete ? (<div className='bg-muted text primary rounded-lg overflow-hidden'>
+            <DialogTitle>Webinar Created </DialogTitle>
+          </div>) : (
+            <>
+              <DialogTitle>Create Webinar</DialogTitle>
+              <MultiFormStep
+                steps={steps}
+                onComplete={handleComplete}
+              ></MultiFormStep>
+            </>
+          )
+        }
       </DialogContent>
     </Dialog>
   );
 }
 
 export default CreateWebinar;
+

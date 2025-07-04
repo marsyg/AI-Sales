@@ -2,6 +2,7 @@
 import React, { use } from 'react';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import CreateWebinar from '../CreateWebinar';
 
 import { ArrowLeft, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,7 @@ function Header({ user }: User) {
       )}
       <div>
         <Zap></Zap>
+        <CreateWebinar></CreateWebinar>
       </div>
     </div>
   );
