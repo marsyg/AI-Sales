@@ -1,9 +1,12 @@
 import useWebinarStore from '@/store/useWebinarStore';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertCircle, Check, Loader2 } from 'lucide-react';
+import { AlertCircle, Check, ChevronRight, ChevronRightIcon, Loader2 } from 'lucide-react';
 import { Separator } from '@radix-ui/react-context-menu';
 import { Button } from '@/components/ui/button';
+import { createWebinar } from '@/actions/webinar';
+import { toast } from 'sonner';
+import { Chevron } from 'react-day-picker';
 type Step = {
   id: string;
   title: string;
@@ -25,28 +28,51 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
   const [validationError, setValidationError] = useState<string | null>(null);
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === steps.length - 1;
-  const handleBack = ()=>{
-    if(isFirstStep){
-      setModalOpen(false) ;
-    }else {
-      setCurrentStepIndex(currentStepIndex -1)
+  const handleBack = () => {
+    if (isFirstStep) {
+      setModalOpen(false);
+    } else {
+      setCurrentStepIndex(currentStepIndex - 1)
       setValidationError(null)
     }
   }
-  const handleNext = async() =>{
+  const handleNext = async () => {
     setValidationError(null);
-    const isValid = validateStep(currentStep.id as keyof typeof formData) 
-    if(!isValid){
+    const isValid = validateStep(currentStep.id as keyof typeof formData)
+    if (!isValid) {
       setValidationError('Please fill in all required  fields')
       return
     }
-    if(!completedSteps.includes(currentStep.id)){
-      setCompletedSteps([...completedSteps,currentStep.id])
+    if (!completedSteps.includes(currentStep.id)) {
+      setCompletedSteps([...completedSteps, currentStep.id])
+    }
+    if (isLastStep) {
+      try {
+        setSubmitting(true)
+        const result = await createWebinar(formData)
+        if (result?.status === 200 && result.webinarId) {
+          toast.success('webinar created successfully')
+          onComplete(result.webinarId)
+
+        } else {
+          toast.error(result?.message || 'There is some error created your webinar')
+          setValidationError(result?.message || null)
+        }
+      }
+      catch (error) {
+        console.error('Error creating webinar : ', error)
+        toast.success('Failed to create webinar . Please try again')
+        setValidationError('Failed to create webinar . Please try again')
+      } finally {
+        setSubmitting(false)
+      }
+    } else {
+      setCurrentStepIndex(currentStepIndex + 1)
     }
   }
   return (
-    <div className='flex flex-col justify-center items-center'>
-      <div className='flex items-center justify-start w-full'>
+    <div className='flex flex-col  '>
+      <div className='flex items-center justify-start m-2 w-full'>
         <div className='w-full  md:w-1/4'>
           <div className='space-y-6 w-full'>
             <div className='flex'>
@@ -175,14 +201,24 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
           </AnimatePresence>
         </div>
       </div>
-      <Button
-      onClick={handleBack}
-      >{
-      isFirstStep ? 'Cancel': 'Back'
-      }</Button>
-      <Button>{
-        
-        isLastStep ?(isSubmitting ? (<><Loader2/>Creating..</>): ('Complete')):('Next')}</Button>
+      <div className='flex flex-row  w-full justify-between '>
+        <Button
+          onClick={handleBack}
+          disabled={isSubmitting}
+        >{
+            isFirstStep ? 'Cancel' : 'Back'
+          }</Button>
+        <Button
+          disabled={isSubmitting}
+          onClick={handleNext}
+
+        >{
+
+            isLastStep ? (isSubmitting ? (<><Loader2 />Creating..</>) : ('Complete')) : ('Next')}
+
+          {!isLastStep && <ChevronRight className='ml-1 h-4 w-4'></ChevronRight>}
+        </Button>
+      </div>
     </div>
   );
 }
