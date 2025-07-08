@@ -21,7 +21,7 @@ type WebinarStore = {
     key: K,
     value: WebinarFormState['cta'][K]
   ) => void;
-  updateAdditionalInfo: <K extends keyof WebinarFormState['additionalInfo']>(
+  updateAdditionalInfo: <K   extends keyof WebinarFormState['additionalInfo']>(
     key: K,
     value: WebinarFormState['additionalInfo'][K]
   ) => void;
@@ -61,7 +61,7 @@ export type WebinarFormState = {
     aiAgent?: string;
     priceId?: string;
   };
-  additionalInfo?: {
+  additionalInfo: {
     lookChat?: boolean;
     couponCode?: string;
     couponEnabled?: boolean;
@@ -121,8 +121,7 @@ const initialState: WebinarFormState = {
   ): void {
     throw new Error('Function not implemented.');
   },
-  updateAdditionalInfo: function <
-    K extends keyof WebinarFormState['additionalInfo']
+  updateAdditionalInfo: function < K extends keyof WebinarFormState['additionalInfo']
   >(key: K, value: WebinarFormState['additionalInfo'][K]): void {
     throw new Error('Function not implemented.');
   },

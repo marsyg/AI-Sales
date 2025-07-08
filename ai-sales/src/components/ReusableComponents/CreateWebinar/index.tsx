@@ -15,24 +15,31 @@ import { Component, Plus } from 'lucide-react';
 import { useState } from 'react';
 import MultiFormStep from './_Components/MultiFormStep';
 import BasicInfoStep from './_Components/BasicInfoStep';
-import CTAStep from './CTAStep';
+import CTAStep from './_Components/CTAStep';
+import AdditionalStep from './_Components/AdditionalStep';
 
 type Props = {};
 
 function CreateWebinar({ }: Props) {
   const { isModalOpen, setModalOpen, isComplete, setComplete } = useWebinarStore();
   const steps = [
-    // {
-    //   id: 'basicInfo',
-    //   title: 'Basic Information',
-    //   description: 'Please fill out the standard info needed for your webinar',
-    //   component: BasicInfoStep
-    // },
+    {
+      id: 'basicInfo',
+      title: 'Basic Information',
+      description: 'Please fill out the standard info needed for your webinar',
+      component: BasicInfoStep
+    },
     {
       id: 'cta',
       title: 'CTA',
       description: 'Please provide the endpoint for your customer through  your webinar',
-      component: CTAStep 
+      component: CTAStep
+    },
+    {
+      id: 'additional info',
+      title: 'Additional Information',
+      description: 'Please provide additional  information (if necessary) for your  webinar',
+      component: AdditionalStep
     }
   ]
   const handleComplete = (webinarId: string) => {
@@ -44,7 +51,7 @@ function CreateWebinar({ }: Props) {
     <Dialog
       open={isModalOpen} // Set to true to open the dialog by default
       onOpenChange={setModalOpen} // Function to control the open state
-     
+
     >
       <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
         <Button className='rounded-2xl  flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>

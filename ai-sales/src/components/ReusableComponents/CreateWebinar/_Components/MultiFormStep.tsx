@@ -26,7 +26,7 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
   const currentStep = steps[currentStepIndex];
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const isFirstStep = currentStepIndex === 0;
+  const isFirstStep = 0;
   const isLastStep = currentStepIndex === steps.length - 1;
   const handleBack = () => {
     if (isFirstStep) {
@@ -86,7 +86,6 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
                     <div key={step.id} className='relative'>
                       <div className='flex items-center w-full space-x-2'>
                         <div className=' w-full'
-
                         >
                           <motion.div
                             className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${isCompleted ? 'bg-green-500' : isActive ? 'bg-blue-500' : 'bg-gray-300'
@@ -141,7 +140,6 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
                             )
                           }
                         </div>
-
                         <div className='flex  w-full flex-col'>
                           <motion.h3
                             animate={{
@@ -155,25 +153,17 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
                             {step.description}
                           </div>
                         </div>
-
-
-
-
                       </div>
-
                     </div>
                   )
                 }
                 )
               }
             </div>
-
           </div>
-
         </div>
         <Separator className='data-[orientation-vertical]:h-1/2 ' />
         <div className="flex flex-col flex-1 min-h-0 px-4">
-
           <AnimatePresence>
             <motion.div
               animate={{ x: 0, opacity: 1 }}
@@ -211,11 +201,10 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
         <Button
           disabled={isSubmitting}
           onClick={handleNext}
-
-        >{
-
-            isLastStep ? (isSubmitting ? (<><Loader2 />Creating..</>) : ('Complete')) : ('Next')}
-
+        >
+          {
+            isLastStep ? (isSubmitting ? (<><Loader2 />Creating..</>) : ('Complete')) : ('Next')
+          }
           {!isLastStep && <ChevronRight className='ml-1 h-4 w-4'></ChevronRight>}
         </Button>
       </div>
