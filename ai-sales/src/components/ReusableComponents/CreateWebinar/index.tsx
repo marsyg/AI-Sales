@@ -15,17 +15,24 @@ import { Component, Plus } from 'lucide-react';
 import { useState } from 'react';
 import MultiFormStep from './_Components/MultiFormStep';
 import BasicInfoStep from './_Components/BasicInfoStep';
+import CTAStep from './CTAStep';
 
 type Props = {};
 
 function CreateWebinar({ }: Props) {
   const { isModalOpen, setModalOpen, isComplete, setComplete } = useWebinarStore();
   const steps = [
+    // {
+    //   id: 'basicInfo',
+    //   title: 'Basic Information',
+    //   description: 'Please fill out the standard info needed for your webinar',
+    //   component: BasicInfoStep
+    // },
     {
-      id: 'basicInfo',
-      title: 'Basic Information',
-      description: 'Please fill out the standard info needed for your webinar',
-      component: BasicInfoStep
+      id: 'cta',
+      title: 'CTA',
+      description: 'Please provide the endpoint for your customer through  your webinar',
+      component: CTAStep 
     }
   ]
   const handleComplete = (webinarId: string) => {

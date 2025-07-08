@@ -25,6 +25,8 @@ type WebinarStore = {
     key: K,
     value: WebinarFormState['additionalInfo'][K]
   ) => void;
+  addTag:(tag: string)=> void
+  removeTag:(tag: string)=> void
   validateStep: (step: keyof WebinarFormState) => boolean;
   getStepValidationErrors: (step: keyof ValidationState) => ValidationErrors;
 };
@@ -76,6 +78,7 @@ export type WebinarFormState = {
     key: K,
     value: WebinarFormState['additionalInfo'][K]
   ) => void;
+
   validateStep: (step: keyof WebinarFormState) => boolean;
   getStepValidationErrors: (step: keyof ValidationState) => ValidationErrors;
 };
@@ -131,6 +134,7 @@ const initialState: WebinarFormState = {
   ): ValidationErrors {
     throw new Error('Function not implemented.');
   },
+  
 };
 
 const useWebinarStore = create<WebinarStore>((set, get) => ({
@@ -162,7 +166,8 @@ const useWebinarStore = create<WebinarStore>((set, get) => ({
           },
         },
       };
-    }),
+    }
+  ),
   updateCTAFields: (field, value) =>
     set((state) => {
       const newCTA = {
@@ -234,7 +239,33 @@ const useWebinarStore = create<WebinarStore>((set, get) => ({
     const state = get();
     return state.validation[step].errors;
   },
-  resetForm :()=>{
+  addTag: (tag: string) => set((state) => {
+    const tags = state.formData.cta.tags ? [...state.formData.cta.tags, tag] : [tag];
+    return {
+      formData: {
+        ...state.formData,
+        cta: {
+          ...state.formData.cta,
+          tags,
+        },
+      },
+    };
+  }),
+  removeTag: (tagToRemove: string) => set((state) => {
+    const tags = state.formData.cta.tags
+      ? state.formData.cta.tags.filter((tag) => tag !== tagToRemove)
+      : [];
+    return {
+      formData: {
+        ...state.formData,
+        cta: {
+          ...state.formData.cta,
+          tags,
+        },
+      },
+    };
+  }),
+  resetForm: () => {
     set({
       formData: initialState,
       validation: initialValidationState,
@@ -243,6 +274,7 @@ const useWebinarStore = create<WebinarStore>((set, get) => ({
       isSubmitting: false,
     });
   }
+
 }));
 
 export default useWebinarStore;
