@@ -185,7 +185,7 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
             >
               <div className='w-full flex flex-col'>
                 <h1 className='text-xl w-full  font-semibold'>{currentStep.title}</h1>
-                <div className='w-full '>{currentStep.description}</div>
+                <div className='w-full m-2'>{currentStep.description}</div>
               </div>
               {
                 <currentStep.component />

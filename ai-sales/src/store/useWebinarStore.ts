@@ -123,7 +123,7 @@ const initialState: WebinarFormState = {
   >(key: K, value: WebinarFormState['additionalInfo'][K]): void {
     throw new Error('Function not implemented.');
   },
-  validateStep: function (step: keyof ValidationState): boolean {
+  validateStep: function (step: keyof WebinarFormState): boolean {
     throw new Error('Function not implemented.');
   },
   getStepValidationErrors: function (

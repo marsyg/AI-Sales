@@ -10,11 +10,12 @@ import { Calendar } from '@/components/ui/calendar'
 import { toast } from 'sonner'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { SelectValue } from '@radix-ui/react-select'
-
+import { useState } from 'react'
 
 type Props = {}
 
 function BasicInfoStep({ }: Props) {
+  const [Datee, setDate] = useState<Date | undefined>(new Date())
 
   const { formData, updateBasicInfo, getStepValidationErrors } = useWebinarStore()
   const { webinarName, date, time, timeFormat, description } = formData.basicInfo
@@ -85,12 +86,23 @@ function BasicInfoStep({ }: Props) {
                   variant={'outline'}
                   className={` ${!date && 'text-gray-500'} ${errors.date && 'border-red-400 focus-visible:ring-red-400'}`}
                 >
-                  <CalendarIcon>{date ? format(date, 'PPP') : 'SelectDate'}</CalendarIcon>
+                  {date ? (
+                    <>
+                      <CalendarIcon />
+                      {format(date, 'PPP')}
+                    </>
+                  ) : (
+                    <>
+                      <CalendarIcon />
+                      <span className='text-gray-500'>Select Date</span>
+                    </>
+                  )}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent className='w-auto p-0 !bg-background/50 border border-input '>
                 <Calendar
                   mode='single'
+                  onSelect={handleDateChange}
                   selected={date}
                   initialFocus
                   className='bg-background'
@@ -108,7 +120,7 @@ function BasicInfoStep({ }: Props) {
             <Label className={errors.time && 'text-red-400'}>
               Webinar Time  <span className='text-red-400'>*</span>
             </Label>
-            <div className='flex gap-2'>
+            <div className='flex items-center space-x-2'>
               <div className='relative flex-1'>
                 <Clock className='absolute left-3  top-2.5  h-4 w-4  text-foreground' />
                 <Input
@@ -117,14 +129,16 @@ function BasicInfoStep({ }: Props) {
                   value={time || ''}
                   onChange={handleChange}
                   type="text"
-                  className={` ${!date && 'text-gray-500'} ${errors.date && 'border-red-400 focus-visible:ring-red-400'}`}
+                  placeholder='     12:00'
+                  className={` ${!date && 'text-gray-500 border border-input  pl-9'} ${errors.date && 'border-red-400 focus-visible:ring-red-400'} `}
                 />
               </div>
               <Select
+                value={timeFormat}
                 onValueChange={handleTimeFormatChange}
               >
                 <SelectTrigger className='w-20 !bg-background/50  border-border-input '>
-                  <SelectValue placeholder='AM'> </SelectValue>
+                  <SelectValue placeholder='AM' />
                 </SelectTrigger>
                 <SelectContent className='w-20 !bg-background/50  border-border-input '>
                   <SelectItem value='AM'>
@@ -141,14 +155,14 @@ function BasicInfoStep({ }: Props) {
           </div>
 
         </div>
-        <div>
-          <div className='flex items-center gap-2 text-sm text-gray-400 mt4'>
+        <div className='flex flex-row'>
+          <div className='flex items-center gap-2 text-sm  text-gray-400 mt-4'>
             <Upload></Upload>
             Upload from your computer
           </div>
-          <Button>
-
-            <input type="file" />
+          <Button className='relative ml-9'>
+            Upload
+            <Input id='file-upload' type="file" title=" " className='opacity-0  absolute inset-0 ' />
           </Button>
 
         </div>

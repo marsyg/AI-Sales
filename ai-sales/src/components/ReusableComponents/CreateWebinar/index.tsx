@@ -37,6 +37,7 @@ function CreateWebinar({ }: Props) {
     <Dialog
       open={isModalOpen} // Set to true to open the dialog by default
       onOpenChange={setModalOpen} // Function to control the open state
+     
     >
       <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
         <Button className='rounded-2xl  flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>
