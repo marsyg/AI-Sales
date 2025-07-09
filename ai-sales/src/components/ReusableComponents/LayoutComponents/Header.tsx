@@ -6,9 +6,9 @@ import CreateWebinar from '../CreateWebinar';
 
 import { ArrowLeft, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-type Props = { user: User };
+type Props = {};
 
-function Header({ user }: User) {
+function Header() {
   const pathname = usePathname();
   const router = useRouter();
   return (

@@ -78,7 +78,7 @@ function BasicInfoStep({ }: Props) {
       </div>
       <div className='grid grid-cols-1  gap-4'>
         <div className='flex flex-row'>
-          <div>
+          <div className='mx-1'>
             <Label className={errors.date && 'text-red-400'}> Date <span className='text-red-400'>*</span> </Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -128,7 +128,7 @@ function BasicInfoStep({ }: Props) {
                   name='time'
                   value={time || ''}
                   onChange={handleChange}
-                  type="text"
+                  type="time"
                   placeholder='     12:00'
                   className={` ${!date && 'text-gray-500 border border-input  pl-9'} ${errors.date && 'border-red-400 focus-visible:ring-red-400'} `}
                 />
@@ -155,12 +155,12 @@ function BasicInfoStep({ }: Props) {
           </div>
 
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row justify-between'>
           <div className='flex items-center gap-2 text-sm  text-gray-400 mt-4'>
             <Upload></Upload>
             Upload from your computer
           </div>
-          <Button className='relative ml-9'>
+          <Button className='relative ml-13'>
             Upload
             <Input id='file-upload' type="file" title=" " className='opacity-0  absolute inset-0 ' />
           </Button>

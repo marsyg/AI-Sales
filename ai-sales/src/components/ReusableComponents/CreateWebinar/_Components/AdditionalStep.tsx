@@ -20,7 +20,7 @@ function AdditionalStep({ }: Props) {
     }
 
     function handleCouponCodeChange(event: React.ChangeEvent<HTMLInputElement>): void {
-        updateAdditionalInfo('couponCode', event.target)
+        updateAdditionalInfo('couponCode', event.target.value)
     }
     const errors = getStepValidationErrors('additionalInfo')
     return (

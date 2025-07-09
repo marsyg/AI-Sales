@@ -56,7 +56,7 @@ function CreateWebinar({ }: Props) {
       <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
         <Button className='rounded-2xl  flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className=' sm:max-w-[800px] w-[95vw] max-h-[90vh] mx-auto p-2'>
         {
           isComplete ? (<div className='bg-muted text primary rounded-lg overflow-hidden'>
             <DialogTitle>Webinar Created </DialogTitle>
@@ -66,6 +66,7 @@ function CreateWebinar({ }: Props) {
               <MultiFormStep
                 steps={steps}
                 onComplete={handleComplete}
+
               ></MultiFormStep>
             </>
           )
