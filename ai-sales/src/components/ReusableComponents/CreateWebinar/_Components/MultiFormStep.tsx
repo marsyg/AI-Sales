@@ -6,7 +6,7 @@ import { Separator } from '@radix-ui/react-context-menu';
 import { Button } from '@/components/ui/button';
 import { createWebinar } from '@/actions/webinar';
 import { toast } from 'sonner';
-import { Chevron } from 'react-day-picker';
+
 import { useEffect } from 'react';
 import { FormStepId } from '@/lib/type';
 
@@ -74,7 +74,7 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
           const result = await createWebinar(formData);
           if (result?.status === 200 && result.webinarId) {
             toast.success('Webinar created successfully');
-            onComplete(result.webinarId);
+            onComplete(result.webinarId as FormStepId);
           } else {
             const errorMessage = result?.message || 'There was an error creating your webinar';
             toast.error(errorMessage);

@@ -9,7 +9,9 @@ import {
   Tooltip,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+type Props = {
 
+}
 function Sidebar(props: Props) {
   const pathname = usePathname();
 
@@ -22,9 +24,8 @@ function Sidebar(props: Props) {
               <TooltipTrigger asChild>
                 <Link
                   href={item.link}
-                  className={`flex items-center gap-2 p-2 cursor-pointer text-slate-800 hover:bg-slate-200 transition-colors duration-200 rounded-md ${
-                    pathname.includes(item.link) ? 'bg-slate-200' : ''
-                  }`}
+                  className={`flex items-center gap-2 p-2 cursor-pointer text-slate-800 hover:bg-slate-200 transition-colors duration-200 rounded-md ${pathname.includes(item.link) ? 'bg-slate-200' : ''
+                    }`}
                 >
                   <item.icon className='w-5 h-5' />
                   <span className='hidden text-2xl sm:inline'>

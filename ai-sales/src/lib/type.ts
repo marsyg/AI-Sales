@@ -76,3 +76,17 @@ export const validateAdditionalInfo = (data: {
     return { valid: Object.keys(errors).length === 0, errors };
 }
 export type ValidationErrors = Record<string, string[]>;
+export type User = {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date | null;
+    name: string;
+    clerkId: string;
+    email: string;
+    profileImage: string;
+    stripeConnectId: string | null;
+    lastLoginAt: Date | null;
+    subscription: boolean;
+    stripeCustomerId: string | null;
+  };
