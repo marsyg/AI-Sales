@@ -8,6 +8,7 @@ import Header from '@/components/ReusableComponents/LayoutComponents/Header';
 type Props = {
   children?: React.ReactNode;
 };
+export const dynamic = 'force-dynamic';
 const Layout = async ({ children }: Props) => {
   const userExist = await onAuthenticateUser();
   if (!userExist.user) {
