@@ -45,11 +45,12 @@ function AdditionalStep({ }: Props) {
                     <Switch
                         id='=coupon-enabled'
                         onCheckedChange={handleToggleCoupon}
-                        checked={lookChat || false}
+                        checked={couponEnabled || false}
                     ></Switch>
                 </div>
                 {
-                    couponCode && (
+                    couponEnabled
+                    && (
                         <div className='space-y-2'>
                             <Input
                                 id='coupon-code'

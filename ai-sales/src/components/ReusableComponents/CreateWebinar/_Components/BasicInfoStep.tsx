@@ -15,7 +15,7 @@ import { useState } from 'react'
 type Props = {}
 
 function BasicInfoStep({ }: Props) {
-  const [Datee, setDate] = useState<Date | undefined>(new Date())
+
 
   const { formData, updateBasicInfo, getStepValidationErrors } = useWebinarStore()
   const { webinarName, date, time, timeFormat, description } = formData.basicInfo
@@ -122,7 +122,7 @@ function BasicInfoStep({ }: Props) {
             </Label>
             <div className='flex items-center space-x-2'>
               <div className='relative flex-1'>
-                <Clock className='absolute left-3  top-2.5  h-4 w-4  text-foreground' />
+
                 <Input
                   id='time'
                   name='time'

@@ -3,7 +3,8 @@ export  type ValidationResult  = {
     valid: boolean;
     errors: ValidationErrors;
 };
- 
+export type FormStepId = 'basicInfo' | 'cta' | 'additionalInfo';
+
 export const validateBasicInfo = (data :{
     webinarName?: string;
     description?: string;
@@ -23,10 +24,10 @@ export const validateBasicInfo = (data :{
     }
     if (!data.time?.trim()) {
         errors.time = ['Time is required'];
-    }else {
-        const timeRegex = /^(0?[1-9]|1[0-2]):([0-5][0-9])\s?(AM|PM)$/i;
+    } else {
+        const timeRegex = /^(0?[1-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
         if (!timeRegex.test(data.time)) {
-            errors.time = ['Time must be in the format HH:MM AM/PM'];
+            errors.time = ['Time must be in the format HH:MM (24-hour format)'];
         }
     }
     if (!data.timeFormat) {
@@ -55,4 +56,23 @@ export const validateCTAFields = (data: {
 }
 
 
+export const validateAdditionalInfo = (data: {
+    lookChat?: boolean;
+    couponCode?: string;
+    couponEnabled?: boolean;
+}): ValidationResult => {
+    const errors: ValidationErrors = {};
+    
+    if (!data.lookChat) {
+        errors.lookChat = ['Look chat is required'];
+    }
+    if (!data.couponCode) {
+        errors.couponCode = ['Coupon code is required'];
+    }
+    if (!data.couponEnabled) {
+        errors.couponEnabled = ['Coupon enabled is required'];
+    }
+    
+    return { valid: Object.keys(errors).length === 0, errors };
+}
 export type ValidationErrors = Record<string, string[]>;

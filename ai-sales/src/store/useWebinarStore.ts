@@ -1,6 +1,6 @@
 import { ValidationErrors } from '@/lib/type';
 import { CtaTypeEnum, Webinar } from '@prisma/client';
-import { validateBasicInfo, validateCTAFields} from '@/lib/type'
+import { validateBasicInfo, validateCTAFields ,validateAdditionalInfo} from '@/lib/type'
 import { create } from 'zustand';
 
 type WebinarStore = {
@@ -194,7 +194,7 @@ const useWebinarStore = create<WebinarStore>((set, get) => ({
         ...state.formData.additionalInfo,
         [field]: value,
       };
-      // Assuming validateAdditionalInfo exists or create a simple validation
+     
       const validationResult = { valid: true, errors: {} };
       return {
         formData: {
@@ -210,30 +210,61 @@ const useWebinarStore = create<WebinarStore>((set, get) => ({
         },
       };
     }),
-  validateStep: (stepId : keyof WebinarFormState) => {
-   const {formData} = get();
-   let validationResult;
-   switch(stepId) {
-     case 'basicInfo':
-      validationResult = validateBasicInfo(formData.basicInfo);
-    
+    validateStep: (stepId : keyof WebinarFormState) => {
+      const {formData} = get();
+      console.log('validateStep called with stepId:', stepId);
+      console.log('Current formData:', formData);
+      console.log('Current validation state:', get().validation);
       
-     break;
-     case 'cta':
-      validationResult = validateCTAFields(formData.cta);
-      break ;
-     case 'additionalInfo':
-       validationResult = { valid: true, errors: {} }; // Placeholder for additional info validation
-        break;  
-    }
-    set((state) => ({
-      validation: {
-        ...state.validation,
-        [stepId]: validationResult,
-      },
-    }));
-    return validationResult.valid;
-  },
+      let validationResult = { valid: false, errors: {} };
+
+      try {
+        
+      switch(stepId) {
+        case 'basicInfo':
+          console.log('Validating basicInfo:', formData.basicInfo);
+         validationResult = validateBasicInfo(formData.basicInfo);
+         console.log('Validation result:', validationResult);
+         break;
+        case 'cta':
+          console.log('Validating cta:', formData.cta);
+         validationResult = validateCTAFields(formData.cta);
+         console.log('Validation result:', validationResult);
+         break;
+        case 'additionalInfo':
+          console.log('Validating additionalInfo:', formData.additionalInfo);
+          validationResult = validateAdditionalInfo(formData.additionalInfo);
+          console.log('Validation result:', validationResult);
+          break;
+        default:
+          console.warn(`Unknown step ID: ${String(stepId)}`);
+          validationResult = { valid: false, errors: { [stepId]: 'Unknown step' } };
+      }
+      } catch (error) {
+        console.error('Error during validation:', error);
+        validationResult = { 
+          valid: false, 
+          errors: { general: 'An error occurred during validation' } 
+        };
+      }
+
+       
+      const finalValidation = {
+        valid: !!validationResult?.valid,
+        errors: validationResult?.errors || {}
+      };
+      
+      console.log('Final validation result:', finalValidation);
+
+      console.log('Setting validation state:', validationResult);
+      set((state) => ({
+        validation: {
+          ...state.validation,
+          [stepId]: finalValidation,
+        },
+      }));
+      return finalValidation.valid;
+     },
   getStepValidationErrors: (step) => {
     const state = get();
     return state.validation[step].errors;

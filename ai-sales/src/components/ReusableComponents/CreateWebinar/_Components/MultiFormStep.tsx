@@ -8,20 +8,21 @@ import { createWebinar } from '@/actions/webinar';
 import { toast } from 'sonner';
 import { Chevron } from 'react-day-picker';
 import { useEffect } from 'react';
-type Step = {
-  id: string;
+import { FormStepId } from '@/lib/type';
+
+interface Step {
+  id: FormStepId;
   title: string;
   description: string;
-
   component: React.ComponentType;
-};
+}
 type Props = {
   steps: Step[];
-  onComplete: (id: string) => void;
+  onComplete: (id: FormStepId) => void;
 };
 
 export default function MultiFormStep({ steps, onComplete }: Props) {
-  const { formData, validateStep, isSubmitting, setSubmitting, setModalOpen } =
+  const { formData, validateStep, isSubmitting, setSubmitting, setModalOpen ,getStepValidationErrors } =
     useWebinarStore();
 
 
@@ -37,46 +38,67 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
   }, [currentStepIndex])
   const handleBack = () => {
     if (isFirstStep) {
-      setModalOpen(false);
+      setModalOpen(false);``
     } else {
       setCurrentStepIndex(currentStepIndex - 1)
       setValidationError(null)
     }
   }
   const handleNext = async () => {
-    setValidationError(null);
-    const isValid = validateStep(currentStep.id as keyof typeof formData)
-    if (!isValid) {
-      setValidationError('Please fill in all required  fields')
-      return
-    }
-    if (!completedSteps.includes(currentStep.id)) {
-      setCompletedSteps([...completedSteps, currentStep.id])
-    }
-    if (isLastStep) {
-      try {
-        setSubmitting(true)
-        const result = await createWebinar(formData)
-        if (result?.status === 200 && result.webinarId) {
-          toast.success('webinar created successfully')
-          onComplete(result.webinarId)
+    try {
+      setValidationError(null);
+      console.log('Current step:', currentStep.id);
 
-        } else {
-          toast.error(result?.message || 'There is some error created your webinar')
-          setValidationError(result?.message || null)
+      
+      const isValid = validateStep(currentStep.id as keyof typeof formData);
+      console.log('Validation result:', isValid);
+      const errors = getStepValidationErrors(currentStep.id);
+      console.log('Validation errors:', errors);
+      if (!isValid) {
+        console.log('Validation failed for step:', currentStep.id);
+        const firstError = Object.values(errors || {})[0]?.[0];
+        if (firstError) {
+          setValidationError(firstError);
+          toast.error(`Validation error: ${firstError}`);
         }
+        return;
       }
-      catch (error) {
-        console.error('Error creating webinar : ', error)
-        toast.success('Failed to create webinar . Please try again')
-        setValidationError('Failed to create webinar . Please try again')
-      } finally {
-        setSubmitting(false)
+      
+      if (!completedSteps.includes(currentStep.id)) {
+        setCompletedSteps([...completedSteps, currentStep.id]);
       }
-    } else {
-      setCurrentStepIndex(currentStepIndex + 1)
+
+      if (isLastStep) {
+        try {
+          setSubmitting(true);
+          const result = await createWebinar(formData);
+          if (result?.status === 200 && result.webinarId) {
+            toast.success('Webinar created successfully');
+            onComplete(result.webinarId);
+          } else {
+            const errorMessage = result?.message || 'There was an error creating your webinar';
+            toast.error(errorMessage);
+            setValidationError(errorMessage);
+          }
+        } catch (error) {
+          console.error('Error creating webinar:', error);
+          const errorMessage = error instanceof Error ? error.message : 'Failed to create webinar. Please try again';
+          toast.error(errorMessage);
+          setValidationError(errorMessage);
+        } finally {
+          setSubmitting(false);
+        }
+      } else {
+        setCurrentStepIndex(currentStepIndex + 1);
+      }
+    } catch (error) {
+      console.error('Validation error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      setValidationError(errorMessage);
+      toast.error(errorMessage);
     }
-  }
+  };
+  
   return (
     <div className='flex flex-col h-full '>
       <div className='flex flex-col md:flex-row gap-6 h-full overflow-hidden'>
@@ -101,7 +123,7 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
                           animate={
 
                             {
-                              background: isCurrent || isCompleted ? 'rbg(147,51, 200)' : 'rgb(209,213,219)'
+                              background: isCurrent || isCompleted ? 'rgb(147,51, 200)' : 'rgb(209,213,219)'
                               , scale: [isCurrent && !isCompleted ? 0.8 : 1, 1]
                             }}
                           transition={{ duration: 0.2, delay: index * 0.1 }}
@@ -200,7 +222,7 @@ export default function MultiFormStep({ steps, onComplete }: Props) {
           disabled={isSubmitting}
           className=''
         >{
-            isFirstStep ? 'Back' : 'Cancel'
+            isFirstStep ? 'Cancel' : 'Back'
           }</Button>
         <Button
           disabled={isSubmitting}

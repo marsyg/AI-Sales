@@ -17,26 +17,27 @@ import MultiFormStep from './_Components/MultiFormStep';
 import BasicInfoStep from './_Components/BasicInfoStep';
 import CTAStep from './_Components/CTAStep';
 import AdditionalStep from './_Components/AdditionalStep';
-
+import { FormStepId } from '@/lib/type';
+import { createWebinar } from '@/actions/webinar';
 type Props = {};
 
 function CreateWebinar({ }: Props) {
   const { isModalOpen, setModalOpen, isComplete, setComplete } = useWebinarStore();
   const steps = [
     {
-      id: 'basicInfo',
+      id: 'basicInfo' as FormStepId,
       title: 'Basic Information',
       description: 'Please fill out the standard info needed for your webinar',
       component: BasicInfoStep
     },
     {
-      id: 'cta',
+      id: 'cta' as FormStepId,
       title: 'CTA',
       description: 'Please provide the endpoint for your customer through  your webinar',
       component: CTAStep
     },
     {
-      id: 'additional info',
+      id: 'additionalInfo' as FormStepId,
       title: 'Additional Information',
       description: 'Please provide additional  information (if necessary) for your  webinar',
       component: AdditionalStep
@@ -49,8 +50,8 @@ function CreateWebinar({ }: Props) {
   const [webinarLink, setWebinarLink] = useState('')
   return (
     <Dialog
-      open={isModalOpen} // Set to true to open the dialog by default
-      onOpenChange={setModalOpen} // Function to control the open state
+      open={isModalOpen}
+      onOpenChange={setModalOpen}
 
     >
       <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
