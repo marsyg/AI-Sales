@@ -4,6 +4,7 @@ import { WebinarFormState } from '@/store/useWebinarStore'
 import { onAuthenticateUser } from './auth'
 import prisma   from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { WebinarStatusEnum } from '@prisma/client'
 function combineDatetime(
     date : Date ,
     timeStr    : string ,
@@ -99,4 +100,26 @@ export const createWebinar =  async (formData : WebinarFormState) =>{
    }
 
 }
+export const getWebinarBypresnterId = async (presenterId : string ) =>{
 
+    try {
+        const webinar = await prisma.webinar.findMany({
+            where : {presenterId},
+            include : {
+                presenter  : {
+   select :{
+    name : true ,
+    stripeConnectId : true
+   }
+                }
+            }
+        })
+        return webinar 
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        } else {
+            console.log(String(error));
+        }return []
+    }
+}

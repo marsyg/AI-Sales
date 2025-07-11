@@ -55,7 +55,7 @@ function CreateWebinar({ }: Props) {
 
     >
       <DialogTrigger className='bg-primary text-primary-foreground hover:bg-primary/90' asChild>
-        <Button className='rounded-2xl  flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>
+        <Button className='rounded-2xl m-2 flex gap-2 items-center hover' onClick={() => { setModalOpen(true) }}><Plus /> Create Webinar </Button>
       </DialogTrigger>
       <DialogContent className=' sm:max-w-[800px] w-[95vw] max-h-[90vh] mx-auto p-2'>
         {

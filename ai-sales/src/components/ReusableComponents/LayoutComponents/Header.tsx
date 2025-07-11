@@ -29,9 +29,11 @@ function Header({ user }: HeaderProps) {
       ) : (
         <Button>{pathname.split('/')[1]}</Button>
       )}
-      <div>
-        <Zap></Zap>
-        <CreateWebinar></CreateWebinar>
+      <div className='flex flex-row  space-x-2'>
+        <div className='flex items-center justify-center '>
+          <Zap ></Zap>
+        </div>
+        <CreateWebinar ></CreateWebinar>
       </div>
     </div>
   );
