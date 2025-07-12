@@ -10,11 +10,11 @@ type Props = {
     heading: string
     placeholder: string
 }
-
+import Icon from '../Icon'
 const PageHeader = ({ heading, mainIcon, leftIcon, rightIcon, children, placeholder }: Props) => {
     return (
         <div className='w-full flex-col gap-8'>
-            <div className='w-full flex justify-center sm:justify-between items-center gap-7 flex-wrap'>
+            <div className='w-full flex justify-center sm:justify-between items-center m-2 gap-7 flex-wrap'>
                 <p className='text-primary text-4xl font-semibold'>{heading}</p>
 
                 <div className='relative  justify-center items-center  md:mr-28 '>

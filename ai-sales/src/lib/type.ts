@@ -1,4 +1,4 @@
-import { CtaTypeEnum } from '@prisma/client';
+import { Attendance, Attendee, CtaTypeEnum } from '@prisma/client';
 export  type ValidationResult  = {
     valid: boolean;
     errors: ValidationErrors;
@@ -90,3 +90,7 @@ export type User = {
     subscription: boolean;
     stripeCustomerId: string | null;
   };
+  export  type AttendanceData = {
+    count  : number 
+    users  : Attendee[]
+  }

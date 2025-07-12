@@ -3,12 +3,14 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { sidebarData } from '@/lib/data';
 import Link from 'next/link';
+import Icon from '../Icon';
 import { UserButton } from '@clerk/nextjs';
 import {
   TooltipProvider,
   Tooltip,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { icons } from 'lucide-react';
 type Props = {
 
 }
@@ -27,7 +29,7 @@ function Sidebar(props: Props) {
                   className={`flex items-center gap-2 p-2 cursor-pointer text-slate-800 hover:bg-slate-200 transition-colors duration-200 rounded-md ${pathname.includes(item.link) ? 'bg-slate-200' : ''
                     }`}
                 >
-                  <item.icon className='w-5 h-5' />
+                  <Icon icon={item.icon}></Icon>
                   <span className='hidden text-2xl sm:inline'>
                     {item.title}
                   </span>

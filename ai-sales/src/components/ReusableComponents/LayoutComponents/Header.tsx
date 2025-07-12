@@ -6,6 +6,7 @@ import CreateWebinar from '../CreateWebinar';
 import { User } from '@/lib/type'
 import { ArrowLeft, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Icon from '../Icon';
 type Props = { user: User };
 
 
@@ -31,7 +32,7 @@ function Header({ user }: HeaderProps) {
       )}
       <div className='flex flex-row  space-x-2'>
         <div className='flex items-center justify-center '>
-          <Zap ></Zap>
+          <Icon icon={Zap}></Icon>
         </div>
         <CreateWebinar ></CreateWebinar>
       </div>
