@@ -18,15 +18,15 @@ const PageHeader = ({ heading, mainIcon, leftIcon, rightIcon, children, placehol
                 <p className='text-primary text-4xl font-semibold'>{heading}</p>
 
                 <div className='relative  justify-center items-center  md:mr-28 '>
-                    <div className='absolute left-2 top-2 -rotate-12 z-0  w-8 h-8 items-center justify-center flex bg-radial  from-red-600 from-40% to-red-400  rounded-xs '>
+                    <div className='absolute left-2 top-2 -rotate-12 z-0  w-8 h-8 items-center justify-center flex bg-radial  from-purple-600 from-40% to-purple-400  rounded-xs '>
                         {leftIcon}
 
                     </div>
-                    <div className='relative w-8 h-8 items-center justify-center flex bg-radial  from-red-600 from-40% to-red-400  rounded-xs z-10 mt-4    '>
+                    <div className='relative w-8 h-8 items-center justify-center flex bg-radial  from-purple-600 from-40% to-purple-400  rounded-xs z-10 mt-4    '>
                         {mainIcon}
 
                     </div>
-                    <div className='absolute right-2 top-2 rotate-12 z-1  w-8 h-8 items-center justify-center flex bg-radial  from-red-600 from-40% to-red-400  rounded-xs  '>
+                    <div className='absolute right-2 top-2 rotate-12 z-1  w-8 h-8 items-center justify-center flex bg-radial  from-purple-600 from-40% to-purple-400  rounded-xs  '>
                         {rightIcon}
 
                     </div>

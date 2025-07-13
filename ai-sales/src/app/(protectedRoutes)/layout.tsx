@@ -2,7 +2,8 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { useUser } from '@clerk/nextjs';
 import { on } from 'events';
 import { redirect } from 'next/navigation';
-import Sidebar from '@/components/ReusableComponents/LayoutComponents/Sidebar';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import AppSidebar from '@/components/ReusableComponents/LayoutComponents/Sidebar';
 import React from 'react';
 import Header from '@/components/ReusableComponents/LayoutComponents/Header';
 type Props = {
@@ -17,18 +18,22 @@ const Layout = async ({ children }: Props) => {
 
   return (
     <>
-      <div className='flex flex-row h-screen  '>
-        {/* {SIDEBAR} */}
-        <Sidebar />
-        <div className='w-full h-screen'>
-          {/* {HEADER} */}
-          <Header user={userExist.user} />
-          {/* {CHILDREN} */}
-          <div className='flex flex-col w-full  overflow-y-auto'>
-            <div className='p-4'>{children}</div>
+      <SidebarProvider>
+        <div className='flex flex-row h-screen  '>
+          {/* {SIDEBAR} */}
+         <AppSidebar></AppSidebar>
+          <div className='w-full h-screen'>
+            {/* {HEADER} */}
+            <Header user={userExist.user} />
+            {/* {CHILDREN} */}
+            <div className='flex flex-col w-full  overflow-y-auto'>
+              <SidebarTrigger />
+              <div className='p-4'>{children}</div>
+            </div>
           </div>
         </div>
-      </div>
+      </SidebarProvider>
+
     </>
   );
 };

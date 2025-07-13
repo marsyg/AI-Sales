@@ -5,7 +5,7 @@ type Props = { icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & 
 
 function Icon({ icon }: Props) {
     return (
-        <div className=' w-8 h-8 items-center rounded-xs justify-center flex bg-radial  from-red-700 from-40% to-red-400'>{React.createElement(icon)}</div>
+        <div className=' w-8 h-8 items-center rounded-xs justify-center flex bg-radial  from-purple-600 from-40% to-purple-400'>{React.createElement(icon)}</div>
     )
 }
 
