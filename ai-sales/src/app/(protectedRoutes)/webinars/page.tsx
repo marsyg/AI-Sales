@@ -36,9 +36,14 @@ const page = async (props: Props) => {
 
             </PageHeader>
             <TabsContent value='all' className='w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 place-items-center place-content-start  gap-x-6 gap-y-10'>
-                {(await webinars)?.length > 0 ? ((await webinars).map((webinar: Webinar, index: number) => (<WebinarCard key={index} webinar={webinar}></WebinarCard>))) : (
-                    <div className='w-full h-[200] flex justify-center items-center text-primary font-semibold  text-2xl'>No content found </div>
-                )}
+                {
+                    (await webinars)?.length > 0 ?
+                        ((await webinars).map((webinar: Webinar, index: number) =>
+                            (<WebinarCard key={index} webinar={webinar}></WebinarCard>))) :
+                        (
+                            <div className='w-full h-[200px] flex justify-center items-center text-primary font-semibold  text-2xl'>No content found </div>
+                        )
+                }
             </TabsContent>
 
         </Tabs >

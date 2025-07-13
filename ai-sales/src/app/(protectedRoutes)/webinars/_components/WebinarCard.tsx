@@ -33,7 +33,7 @@ function WebinarCard({ webinar }: Props) {
                         </p>
                     </div>
                 </Link>
-                <Link href={`/webinars/${webinar?.id}/pipeline`}
+                <Link href={`/webinars/${webinar?.id}/pipelines `}
                     className='flex items-center justify-center  w-6 h-6 p-1 border-border  rounded-md border-[0.5px]'
                 >
                     <Rows3></Rows3>
