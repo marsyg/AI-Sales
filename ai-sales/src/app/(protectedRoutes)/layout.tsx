@@ -18,10 +18,10 @@ const Layout = async ({ children }: Props) => {
 
   return (
     <>
-      <SidebarProvider>
-        <div className='flex flex-row h-screen  '>
+      <div className='flex flex-row h-screen  '>
+        <SidebarProvider>
           {/* {SIDEBAR} */}
-         <AppSidebar></AppSidebar>
+          <AppSidebar></AppSidebar>
           <div className='w-full h-screen'>
             {/* {HEADER} */}
             <Header user={userExist.user} />
@@ -31,8 +31,8 @@ const Layout = async ({ children }: Props) => {
               <div className='p-4'>{children}</div>
             </div>
           </div>
-        </div>
-      </SidebarProvider>
+        </SidebarProvider>
+      </div>
 
     </>
   );

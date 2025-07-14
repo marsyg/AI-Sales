@@ -23,7 +23,6 @@ function WebinarCard({ webinar }: Props) {
             <div className=' w-full flex justify-start p-2  bg-gray-200 items-center gap-3 '>
                 <Link href={
                     `/live-webinar/${webinar?.id}`
-
                 }
                     className='w-full max-w-[400px]'>
                     <div>
